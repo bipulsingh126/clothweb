@@ -6,7 +6,7 @@ import ProductItem from '../components/ProductItem.jsx';
 
 const Collection = () => {
 
-  const { products } = useContext(ShopContext);
+  const { products, search , showSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
@@ -33,6 +33,9 @@ const Collection = () => {
 
   const applyFilter = () => {
     let productCopy = products.slice();
+    if (showSearch && search) {
+      productCopy = productCopy.filter(item=> item.name.toLowerCase().includes(search.toLowerCase()))
+    }
     if (category.length > 0) {
       productCopy = productCopy.filter(item => category.includes(item.category));
     }
@@ -64,7 +67,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory])
+  }, [category, subCategory, search , showSearch])
   
   useEffect(()=> {
     sortProduct();
@@ -103,7 +106,7 @@ const Collection = () => {
           <p className='mb-3 text-sm font-medium'>TYPE</p>
           <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
             <p className='flex gap-2'>
-              <input type="checkbox" className='w-3' value={'Topwear'} onChange={toggleSubCategory} /> Topwear
+              <input type="checkbox"  className='w-3' value={'Topwear'} onChange={toggleSubCategory} /> Topwear
             </p>
             <p className='flex gap-2'>
               <input type="checkbox" className='w-3' value={'Bottomwear'} onChange={toggleSubCategory} /> Bottomwear
@@ -142,3 +145,5 @@ const Collection = () => {
 }
 
 export default Collection
+
+

@@ -12,6 +12,7 @@ import PlaceOrder from './pages/PlaceOrder.jsx'
 import Orders from './pages/Orders.jsx'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
+import SearcchBar from './components/SearcchBar.jsx'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
   return (
     <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw] '>
       <Navbar />
+      <SearcchBar/>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/collection' element={<Collection />} />
