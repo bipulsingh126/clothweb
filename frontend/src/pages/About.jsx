@@ -6,7 +6,6 @@ import NewsLattter from '../components/NewsLattter'
 const About = () => {
   return (
     <div>
-
       <div className='text-2xl text-center pt-8 border-t'>
         <Title text1={'ABOUT'} text2={'US'} />
       </div>
@@ -37,7 +36,7 @@ const About = () => {
           <p className='text-gray-600'>We believe that every customer deserves personalized attention. Our dedicated team is committed to providing exceptional customer service, ensuring you have a positive and satisfying shopping experience. </p>
         </div>
       </div>
-      <NewsLattter/>
+      <NewsLattter />
     </div>
   )
 }
