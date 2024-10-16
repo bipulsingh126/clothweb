@@ -4,6 +4,7 @@ import 'dotenv/config'
 import connactDB from './config/mongodb.js';
 import connectCloudinary from './config/cloudnary.js';
 import userRouter from './routes/userRoute .js';
+import productRouter from './routes/productRoute.js';
 
 
 //app config
@@ -25,6 +26,7 @@ import userRouter from './routes/userRoute .js';
 
  //api endpoint
  app.use('/api/user',userRouter);
+ app.use('/api/product', productRouter);
 
  // start the server
  app.listen(port, () => console.log(`Server running on port ${port}`));
