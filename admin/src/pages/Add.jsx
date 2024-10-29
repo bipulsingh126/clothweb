@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { assets } from '../assets/assets'
-
-const Add = () => {
+import axios from 'axios'
+import { backendUrl } from '../App';
+import { toast } from 'react-toastify';
+const Add = ({ token }) => {
 
   const [image1, setImage1] = useState(false);
   const [image2, setImage2] = useState(false);
@@ -17,22 +19,37 @@ const Add = () => {
 
   const [sizes, setSizes] = useState([]);
 
-  const onSubmitHandler = async (e)=>{
-    e.preventDefault();
+  const onSubmitHandler = async (e) => {
+      e.preventDefault();
 
     try {
-      const formData = new FormData();
-      formData.append('name', name);
-      formData.append('description', description);
-      formData.append('price', price);
-      formData.append('category', category);
-      formData.append('subCategory', subCategory);
-      formData.append('bestseller', bestseller);
-      formData.append('sizes', JSON.stringify(sizes));
+       const formData = new FormData();
+       formData.append("name", name);
+       formData.append("description", description);
+       formData.append("price", price);
+       formData.append("category", category);
+       formData.append("subCategory", subCategory); // Make sure this is included
+       formData.append("bestseller", bestseller);
+       formData.append("sizes", JSON.stringify(sizes));
+       
+       // Only append images if they exist
+       if (image1) formData.append('image1', image1);
+       if (image2) formData.append('image2', image2);
+       if (image3) formData.append('image3', image3);
+       if (image4) formData.append('image4', image4);
+      
+     const response = await axios.post(backendUrl + "/api/product/add" ,formData , {headers: {token}});
+     console.log(response.data);
+     
+     
+     if (response.data.message) {
+      toast.success()
+     }
+     
+      
       
     } catch (error) {
-      console.log(error);
-      
+     console.log(error);
     }
 
   }
@@ -76,7 +93,6 @@ const Add = () => {
         <div>
           <p className='mb-2'>Product Category</p>
           <select onChange={(e) => setCategory(e.target.value)} value={category} className='w-full px-3 py-2'>
-            <option value="Select">Select</option>
             <option value="Men">Men</option>
             <option value="Women">Women</option>
             <option value="Kids">Kids</option>
@@ -85,8 +101,7 @@ const Add = () => {
         <div>
           <p className='mb-2'>Sub Category</p>
           <select onChange={(e) => setSubCategory(e.target.value)} value={subCategory} className='w-full px-3 py-2'>
-            <option value="Select">Select</option>
-            <option value="Topwear">Men</option>
+            <option value="Topwear">Topwear</option>
             <option value="Bottomwear">Bottomwear</option>
             <option value="Winterwaer">Winterwear</option>
           </select>
