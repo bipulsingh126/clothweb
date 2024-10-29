@@ -20,40 +20,43 @@ const Add = ({ token }) => {
   const [sizes, setSizes] = useState([]);
 
   const onSubmitHandler = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
     try {
-       const formData = new FormData();
-       formData.append("name", name);
-       formData.append("description", description);
-       formData.append("price", price);
-       formData.append("category", category);
-       formData.append("subCategory", subCategory); // Make sure this is included
-       formData.append("bestseller", bestseller);
-       formData.append("sizes", JSON.stringify(sizes));
-       
-       // Only append images if they exist
-       if (image1) formData.append('image1', image1);
-       if (image2) formData.append('image2', image2);
-       if (image3) formData.append('image3', image3);
-       if (image4) formData.append('image4', image4);
-      
-     const response = await axios.post(backendUrl + "/api/product/add" ,formData , {headers: {token}});
-     console.log(response.data);
-     
-     
-     if (response.data.message) {
-      toast.success()
-     }
-     
-      
-      
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("price", price);
+      formData.append("category", category);
+      formData.append("subCategory", subCategory); // Make sure this is included
+      formData.append("bestseller", bestseller);
+      formData.append("sizes", JSON.stringify(sizes));
+
+      // Only append images if they exist
+      if (image1) formData.append('image1', image1);
+      if (image2) formData.append('image2', image2);
+      if (image3) formData.append('image3', image3);
+      if (image4) formData.append('image4', image4);
+
+      const response = await axios.post(backendUrl + "/api/product/add", formData, { headers: { token } });
+
+      if (response.data.message) {
+        toast.success(response.data.message);
+        setName('')
+        setDescription('')
+        setImage1(false)
+        setImage2(false)
+        setImage3(false)
+        setImage4(false)
+        setPrice('')
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
-     console.log(error);
+      console.log(error);
+      toast.error(error.message)
     }
-
   }
-
 
   return (
     <form onSubmit={onSubmitHandler} className='flex flex-col w-full items-start gap-3'>
