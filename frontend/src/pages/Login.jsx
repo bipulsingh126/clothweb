@@ -1,41 +1,41 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ShopContext } from '../context/ShopContext';
+import { ShopContext } from '../context/ShopContext.jsx';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Login = () => {
 
-  const [currentState, setCurrentState] = useState('Login');
-  const {navigate,beckendUrl,setToken,token} = useContext(ShopContext);
+  const [currentState, setCurrentState] = useState('Sign up');
+ const {beckendUrl,setToken,token,navigate} = useContext(ShopContext)
   const [name, setName] = useState('');
   const [email , setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const onSubmitHandler = async (e) =>{
-   e.preventDefault();
-   try {
-    if (currentState === 'Sign up') {
-      const response = await axios.post(beckendUrl + '/api/user/register', {name, email, password});
-      if (response.data.success) {
-        setToken(response.data.token);
-        localStorage.setItem('token', response.data.token);
-      }else{
-        toast.error(response.data.message)
-      } 
-    }else{
-      const response = await axios.post(beckendUrl + '/api/user/login', {email, password});
-       if (response.data.token) {
-        setToken(response.data.token);
-        localStorage.setItem('token', response.data.token);
+    e.preventDefault();
+    try {
+     if (currentState === 'Sign up') {
+       const response = await axios.post(beckendUrl + '/api/user/register', {name, email, password});
+       if (response.data.success) {
+         setToken(response.data.token);
+         localStorage.setItem('token', response.data.token);
        }else{
-        toast.error(response.data.message)
-       }
+         toast.error(response.data.message)
+       } 
+     }else{
+       const response = await axios.post(beckendUrl + '/api/user/login', {email, password});
+        if (response.data.token) {
+         setToken(response.data.token);
+         localStorage.setItem('token', response.data.token);
+        }else{
+         toast.error(response.data.message)
+        }
+     }
+    } catch (error) {
+     console.log(error);
+     toast.error(error.message)  
     }
-   } catch (error) {
-    console.log(error);
-    toast.error(error.message)  
    }
-  }
 
   useEffect(()=>{
     if (token) {
